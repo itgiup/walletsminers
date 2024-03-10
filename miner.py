@@ -3,6 +3,23 @@ import os
 import random
 from web3 import Web3, HTTPProvider
 
+
+def saveWallet(private_key, address, balance):
+    f = open(f"{private_key}.txt", "a")
+    f.write(f"{private_key}\n {address}\n {balance}")
+    f.close()
+
+def alertTele(private_key, address, balance):
+    # // let message = encodeURIComponent(`<code style="color: ${type}">${typeof (content) === "string" ? content : JSON.stringify(content)}</code>`);
+    message = encodeURIComponent(f"${typeof (content) === "string" ? content : JSON.stringify(content)}");
+    url = f"https://api.telegram.org/bot${this.token}/sendMessage?chat_id=-${this[chat] || chat}&text=${message}&parse_mode=html";
+
+    options = {
+        'method': 'POST',
+        'url': url
+    };
+
+
 # Tạo chuỗi 64 ký tự ngẫu nhiên
 
 def scan():
@@ -92,6 +109,7 @@ def scan():
             if balance > y["min"]:
                 # In ra kết quả
                 print(f"{x} \n Private Key: {private_key} \n Địa chỉ ví: {address} \n Số dư: {balance}")
+                saveWallet(private_key, address, balance)
 
 
 
