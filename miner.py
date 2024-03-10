@@ -93,6 +93,9 @@ def scan():
                 # In ra kết quả
                 print(f"{x} \n Private Key: {private_key} \n Địa chỉ ví: {address} \n Số dư: {balance}")
 
+
+
+# thay đổi số lượng luồng
 maxThread = 100
 for x in range(maxThread):
     t = threading.Thread(target=scan, name='t' + str(x))
