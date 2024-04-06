@@ -1,7 +1,7 @@
 {
     "tele": {
-        "token": ":",
+        "token": "xxx:xxxxxxxx",
         "chatId": 1111111111
     },
-    "maxThread": 100
+    "maxThread": 5
 }

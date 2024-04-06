@@ -33,58 +33,58 @@ def scan():
             "rpc":  Web3(HTTPProvider("https://binance.llamarpc.com")), 
             "min": 0
         },
-        "ARB":{
-            "rpc": Web3(HTTPProvider("https://arbitrum.drpc.org")),
-            "min": 0
-        },
-        # "AVAX": {
-        #     "rpc": Web3(HTTPProvider("https://avalanche.drpc.org")),
+        # "ARB":{
+        #     "rpc": Web3(HTTPProvider("https://arbitrum.drpc.org")),
         #     "min": 0
         # },
+        "AVAX": {
+            "rpc": Web3(HTTPProvider("https://avalanche.drpc.org")),
+            "min": 0
+        },
         # "MATIC":{ 
         #     "rpc": Web3(HTTPProvider("https://polygon.drpc.org")),
         #     "min": 0
         # },
-        # "OP": { 
-        #     "rpc": Web3(HTTPProvider("https://optimism.llamarpc.com")),
-        #     "min": 0
-        # },
-        # "MANTA": { 
-        #     "rpc": Web3(HTTPProvider("https://pacific-rpc.manta.network/http")),
-        #     "min": 0
-        # },
-        # "BASE": { 
-        #     "rpc": Web3(HTTPProvider("https://mainnet.base.org")),
-        #     "min": 0
-        # },
-        # "PLS": { 
-        #     "rpc": Web3(HTTPProvider("https://rpc.pulsechain.com")),
-        #     "min": 0
-        # },
-        # "CRO": { 
-        #     "rpc": Web3(HTTPProvider("https://cronos-evm-rpc.publicnode.com")),
-        #     "min": 0
-        # },
-        # "KAVA": { 
-        #     "rpc": Web3(HTTPProvider("https://kava-pokt.nodies.app")),
-        #     "min": 0
-        # },
-        # "XDAI": { 
-        #     "rpc": Web3(HTTPProvider("https://gnosis.drpc.org")),
-        #     "min": 0
-        # },
-        # "CELO": { 
-        #     "rpc": Web3(HTTPProvider("https://1rpc.io/celo")),
-        #     "min": 0
-        # },
-        # "FTM": { 
-        #     "rpc": Web3(HTTPProvider("https://endpoints.omniatech.io/v1/fantom/mainnet/public")),
-        #     "min": 0
-        # },
-        # "GLMR": { 
-        #     "rpc": Web3(HTTPProvider("https://endpoints.omniatech.io/v1/moonbeam/mainnet/public")),
-        #     "min": 0
-        # },
+        "OP": { 
+            "rpc": Web3(HTTPProvider("https://optimism.llamarpc.com")),
+            "min": 0
+        },
+        "MANTA": { 
+            "rpc": Web3(HTTPProvider("https://pacific-rpc.manta.network/http")),
+            "min": 0
+        },
+        "BASE": { 
+            "rpc": Web3(HTTPProvider("https://mainnet.base.org")),
+            "min": 0
+        },
+        "PLS": { 
+            "rpc": Web3(HTTPProvider("https://rpc.pulsechain.com")),
+            "min": 0
+        },
+        "CRO": { 
+            "rpc": Web3(HTTPProvider("https://cronos-evm-rpc.publicnode.com")),
+            "min": 0
+        },
+        "KAVA": { 
+            "rpc": Web3(HTTPProvider("https://kava-pokt.nodies.app")),
+            "min": 0
+        },
+        "XDAI": { 
+            "rpc": Web3(HTTPProvider("https://gnosis.drpc.org")),
+            "min": 0
+        },
+        "CELO": { 
+            "rpc": Web3(HTTPProvider("https://1rpc.io/celo")),
+            "min": 0
+        },
+        "FTM": { 
+            "rpc": Web3(HTTPProvider("https://endpoints.omniatech.io/v1/fantom/mainnet/public")),
+            "min": 0
+        },
+        "GLMR": { 
+            "rpc": Web3(HTTPProvider("https://endpoints.omniatech.io/v1/moonbeam/mainnet/public")),
+            "min": 0
+        },
         
         # : { 
         #     "rpc": Web3(HTTPProvider("")),
@@ -104,15 +104,18 @@ def scan():
         # print(private_key, address)
 
         for coin, w3 in Chains.items():
-            
-            # Kiểm tra số dư coin
-            balance = w3["rpc"].eth.get_balance(address)
-            # print(coin, balance,w3["min"])
-            if balance > w3["min"]:
-                # In ra kết quả
-                print(f"{coin} \n Private Key: {private_key} \n Địa chỉ ví: {address} \n Số dư: {balance}")
-                saveWallet(coin, private_key, address, balance)
-                alertTele(coin, private_key, address, balance)
+            try:
+                # print(coin)
+                # Kiểm tra số dư coin
+                balance = w3["rpc"].eth.get_balance(address)
+                print(coin, address, balance)
+                if balance > w3["min"]:
+                    # In ra kết quả
+                    print(f"{coin} \n Private Key: {private_key} \n Địa chỉ ví: {address} \n Số dư: {balance}")
+                    saveWallet(coin, private_key, address, balance)
+                    alertTele(coin, private_key, address, balance)
+            except NameError:
+                print("")
 
 # thay đổi số lượng luồng
 maxThread = settings["maxThread"]
