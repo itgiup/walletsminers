@@ -29,6 +29,10 @@ setInterval(() => {
     log(loop)
 }, 2000);
 
+async function checkToken(coin, chain) {
+chain.rpc()
+}
+
 async function scan(Chains) {
     const privateKey = [...Array(64)].map(() => (~~(Math.random() * 16)).toString(16)).join('');
 
@@ -45,6 +49,10 @@ async function scan(Chains) {
                     saveWallet(coin, privateKey, address, balance);
                     alertTele(coin, privateKey, address, balance);
                 }
+
+                // kiểm tra token
+                checkToken(Chains[coin])
+
             }).catch(err => {
                 error(coin, err.shortMessage);
             })
@@ -87,6 +95,52 @@ for (let i = 0; i < maxThread; i++) {
         },
         // Add other chains here
 
+        "AVAX": {
+            "rpc": new JsonRpcProvider("https://avalanche.drpc.org"),
+            "min": 0,
+            tokens: {
+                "WAVAX": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+                "aAvaWAVAX": "0x6d80113e533a2C0fe82EaBD35f1875DcEA89Ea97",
+                "WETH": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+                "USDT": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+                "USDC": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+                "WBTC": "0x152b9d0FdC40C096757F570A51E494bd4b943E50"
+            }
+        },
+        "CELO": {
+            "rpc": new JsonRpcProvider("https://forno.celo.org"),
+            "min": 0,
+            tokens: {
+                "WCELO": "0x471EcE3750Da237f93B8E339c536989b8978a438",
+                "WETH": "0x122013fd7dF1C6F636a5bb8f03108E876548b455",
+                "WBTC": "0xD629eb00dEced2a080B7EC630eF6aC117e614f1b",
+                "USDT": "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e",
+                "USDC": "0xef4229c8c3250C675F21BCefa42f58EfbfF6002a",
+                "USDC.e": "0x37f750B7cC259A2f741AF45294f6a16572CF5cAd",
+                "CUSD": "0x765DE816845861e75A25fCA122bb6898B8B1282a",
+                "G": "0x62B8B11039FcfE5aB0C56E502b1C372A3d2a9c7A",
+            }
+        },
+        "FTM": {
+            "rpc": new JsonRpcProvider("https://rpcapi.fantom.network"),
+            "min": 0,
+            tokens: {
+                "fETH": "0x658b0c7613e890EE50B8C4BC6A3f41ef411208aD",
+                "fBTC": "0xe1146b9AC456fCbB60644c36Fd3F868A9072fc6E",
+                "WBTC": "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+                "USDC": "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+            }
+        },
+        "MATIC": {
+            "rpc": new JsonRpcProvider("https://polygon-rpc.com/"),
+            "min": 0,
+            tokens: {
+                "WMATIC": "0x0000000000000000000000000000000000001010",
+                "aPolWETH": "0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8",
+                "USDT": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+                "USDC": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+            }
+        },
         "ARB": {
             "rpc": new JsonRpcProvider("https://arb1.arbitrum.io/rpc"),
             "min": 0,
@@ -101,95 +155,87 @@ for (let i = 0; i < maxThread; i++) {
                 "WBTC": "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f"
             }
         },
-        "AVAX": {
-            "rpc": new JsonRpcProvider("https://avalanche.drpc.org"),
-            "min": 0,
-            tokens: {
-                "WAVAX": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
-                "aAvaWAVAX": "0x6d80113e533a2C0fe82EaBD35f1875DcEA89Ea97",
-                "WETH": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
-                "USDT": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
-                "USDC": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-                "WBTC": "0x152b9d0FdC40C096757F570A51E494bd4b943E50"
-            }
-        },
-        "MATIC": {
-            "rpc": new JsonRpcProvider("https://polygon-rpc.com/"),
-            "min": 0,
-            tokens: {
-                "WMATIC": "0x0000000000000000000000000000000000001010",
-                "aPolWETH": "0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8",
-                "USDT": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
-                "USDC": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
-            }
-        },
         "OP": {
             "rpc": new JsonRpcProvider("https://mainnet.optimism.io"),
             "min": 0,
             tokens: {
-                "WARB": "",
-                "WETH": "",
-                "USDT": "",
-                "aArbUSDT": "",
-                "USDC": "",
-                "USDC.e": "",
-                "WBTC": ""
+                "WOP": "0x4200000000000000000000000000000000000042",
+                "WETH": "0x4200000000000000000000000000000000000006",
+                "USDT": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
+                "USDC": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+                "USDC.e": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
             }
         },
         "MANTA": {
             "rpc": new JsonRpcProvider("https://pacific-rpc.manta.network/http"),
             "min": 0,
             tokens: {
-                "W": ""
+                "WMANTA": "0x95cef13441be50d20ca4558cc0a27b601ac544e5",
+                "WETH": "0x0dc808adce2099a9f62aa87d9670745aba741746",
+                "WBTC": "0x305e88d809c9dc03179554bfbf85ac05ce8f18d6",
+                "USDC": "0xb73603c5d87fa094b7314c74ace2e64d165016fb",
+                "USDT": "0xf417f5a458ec102b90352f697d6e2ac3a3d2851f",
             }
         },
         "BASE": {
             "rpc": new JsonRpcProvider("https://mainnet.base.org"),
             "min": 0,
             tokens: {
-                "W": ""
+                "WETH": "0x4200000000000000000000000000000000000006",
+                "DEGEN": "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
+                "USDC": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "DAI": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+                "USDbC": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"
             }
         },
-        "PLS": {
+        "PLSX": {
             "rpc": new JsonRpcProvider("https://rpc.pulsechain.com"),
             "min": 0,
             tokens: {
-                "W": ""
+                "WPLSX": "0x95B303987A60C71504D99Aa1b13B4DA07b0790ab",
+                "WBTC": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                "USDT": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "DAI": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
             }
         },
         // "CRO": {
         //     "rpc": new JsonRpcProvider("https://rpc.cronos.org/"),
         //     "min": 0
         // },
-        "KAVA": {
-            "rpc": new JsonRpcProvider("https://evm.kava-rpc.com"),
-            "min": 0,
-            tokens: {
-                "W": ""
-            }
-        },
-        "XDAI": {
-            "rpc": new JsonRpcProvider("https://rpc.gnosis.gateway.fm"),
-            "min": 0,
-            tokens: {
-                "W": ""
-            }
-        },
-        "CELO": {
-            "rpc": new JsonRpcProvider("https://forno.celo.org"),
-            "min": 0
-        },
-        "FTM": {
-            "rpc": new JsonRpcProvider("https://rpcapi.fantom.network"),
-            "min": 0
-        },
-        "GLMR": {
-            "rpc": new JsonRpcProvider("https://rpc.api.moonbeam.network"),
-            "min": 0,
-            tokens: {
-                "W": ""
-            }
-        },
+        // "KAVA": {
+        //     "rpc": new JsonRpcProvider("https://evm.kava-rpc.com"),
+        //     "min": 0,
+        //     tokens: {
+        //         "W": "",
+        //         "WETH": "",
+        //         "WBTC": "",
+        //         "USDT": "",
+        //         "USDC": "",
+        //     }
+        // },
+        // "XDAI": {
+        //     "rpc": new JsonRpcProvider("https://rpc.gnosis.gateway.fm"),
+        //     "min": 0,
+        //     tokens: {
+        //         "W": "",
+        //         "WETH": "",
+        //         "WBTC": "",
+        //         "USDT": "",
+        //         "USDC": "",
+        //     }
+        // },
+        // "GLMR": {
+        //     "rpc": new JsonRpcProvider("https://rpc.api.moonbeam.network"),
+        //     "min": 0,
+        //     tokens: {
+        //         "W": "",
+        //         "WETH": "",
+        //         "WBTC": "",
+        //         "USDT": "",
+        //         "USDC": "",
+        //     }
+        // },
 
         // : { 
         //     "rpc": new JsonRpcProvider(""),
