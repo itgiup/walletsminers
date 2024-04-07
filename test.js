@@ -1,22 +1,21 @@
-const { utils, Wallet, randomBytes } = require('ethers');
+const { Web3 } = require('web3');
 
-// Tạo một private key ngẫu nhiên
-const randomPrivateKey = randomBytes(64);
-// const randomWallet = new Wallet(randomPrivateKey.toString());
+// Kết nối tới một Ethereum node
+const web3 = new Web3('https://eth.merkle.io');
+console.log(web3.eth.net);
 
+// // Lấy danh sách các peer node từ một nút Ethereum
+// async function getActiveNodes() {
+//     try {
+//         const peerCount = await web3.eth.net.getPeerCount();
+//         const peers = await web3.eth.net.getPeers();
 
+//         console.log(`Số lượng node đang kết nối: ${peerCount}`);
+//         console.log('Danh sách các node:');
+//         peers.forEach(peer => console.log(peer));
+//     } catch (error) {
+//         console.error('Lỗi khi lấy danh sách các node:', error);
+//     }
+// }
 
-let p = new Uint8Array(64);
-p.set("0x4200000000000000000000000000000000000042")
-p.set(randomBytes(24))
-
-const customWallet = ""//  new Wallet(p);
-console.log(p, p.toString("hex"));
-
-// Bổ sung các số 0 phía trước cho private key để tạo ra địa chỉ ví như mong muốn
-// const customPrivateKey = `0x4200000000000000000000000000000000000042${randomPrivateKey.slice(2)}`;
-
-// Tạo một địa chỉ ví từ private key
-
-// console.log("Custom Private Key:", customPrivateKey);
-// console.log("Custom Wallet Address:", customWallet.address);
+// getActiveNodes();
