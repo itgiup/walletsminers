@@ -53,7 +53,7 @@ async function scan(chains) {
             // kiểm tra token
             return Promise.all(Object.entries(chain.tokens).map(([token_name, instance]) => {
                 return instance.balanceOf(address).then(balance => {
-                    // log(coin, token_name, address, balance);
+                    log(coin, token_name, address, balance);
                     if (balance > 0n) {
                         log(`${coin} - ${token_name}\nPrivate Key: ${privateKey}\nĐịa chỉ ví: ${address}\nSố dư: ${balance}`);
                         saveWallet(`${coin}_${token_name}`, privateKey, address, balance);
@@ -68,7 +68,7 @@ async function scan(chains) {
             error(coin, err.shortMessage);
         })
     })).then((r) => {
-        log(r)
+        console.clear();
         scan(chains)
     })
 }
@@ -130,7 +130,7 @@ const Chains = {
         }
     },
     "FTM": {
-        "rpc": "https://rpcapi.fantom.network",
+        "rpc": "https://rpc.ftm.tools", // "https://rpcapi.fantom.network",
         "min": 0,
         tokens: {
             "fETH": "0x658b0c7613e890EE50B8C4BC6A3f41ef411208aD",
